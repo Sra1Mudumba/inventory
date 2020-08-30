@@ -1,0 +1,125 @@
+{% load static %}
+{% load crispy_forms_tags %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <link rel="stylesheet" href="{% static 'css/invstyles.css' %}">
+        <link href='https://fonts.googleapis.com/css?family=Actor' rel='stylesheet'>
+        <title>Sales</title>
+
+        <style>
+            #navbar {
+                background-color: blanchedalmond;
+            }
+
+            .navbar-brand, .navbar-brand:hover {
+                color: brown; 
+                font-weight: bold; 
+                font-size: 1.5em;
+            }
+
+            #heading {
+                font-weight: bolder;
+                font-size: 3em;
+            }
+
+            .navbar-nav > .nav-item> .nav-link {
+                color: brown; 
+                font-weight: bold;
+            }
+
+            .navbar-nav > .nav-item .nav-link:hover {
+                color: blanchedalmond;
+                background-color: brown;
+            }
+
+            .active {
+                background-color:peachpuff;
+            }
+
+            body {
+                margin-top: 60px; 
+                background-color: #a0522d; 
+                font-family: 'Actor';
+            }
+
+            #form{
+                border:1px solid #cecece; 
+                background-color: blanchedalmond;
+                font-weight: bold;
+                margin-bottom: 30px;
+                z-index: 1;
+            }
+
+            #form>h3 {
+                font-weight: bold;
+            }
+
+            .btn {
+                background-color: brown;
+                color: white;
+            }
+
+            .btn-outline {
+                background-color: blanchedalmond;
+                color: brown;
+            }
+
+            .btn-outline:hover {
+                background-color: brown;
+                color: white;
+            }
+
+            marquee {
+                color: red;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="container mt-5">
+            <div class="row">
+                <div class="col-12 col-md-6 offset-md-3">
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert {{ message.tags }} alert-dismissible" style = "color:brown; background-color: blanchedalmond;" role="alert">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            {{ message }}
+                            </div>
+                         {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="row">
+                <form id = "form" method = "POST" class="col-md-6 offset-md-3 col-12">
+                    <h3 class = "text-center mt-3">Sales Products Details</h3>
+                    {% csrf_token %}
+                    <hr>
+                    {{ form|crispy }}
+                    <hr>
+                    <marquee behavior = "alternate">** Submit before going for payment **</marquee>
+                    <br>
+                    <button type = "submit" class = "mb-3 btn">Submit</button>
+                </form>
+                <br>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 offset-md-5 col-12">
+                    <a href="../{{ invoice.invoice_id }}/confirmation"><button class = "mb-3 ml-auto btn btn-outline">Go to Payment</button></a>
+                </div>
+            </div>
+        </div>
+
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    </body>
+</html>
