@@ -6,7 +6,6 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-        <link rel="stylesheet" href="{% static 'css/invstyles.css' %}">
         <link href='https://fonts.googleapis.com/css?family=Actor' rel='stylesheet'>
         <title>Inventario Sales</title>
 
@@ -79,7 +78,7 @@
 
             div.jumbotron {
                 height: 40vh;
-                background-image: linear-gradient(to bottom, rgba(0,0,0,0.6) 0%,rgba(0,0,0,0.6) 100%), url('../img/inventory-2.jpg');
+                background-image: linear-gradient(to bottom, rgba(0,0,0,0.6) 0%,rgba(0,0,0,0.6) 100%), url('{% static 'img/inventory-2.png' %}');
                 background-size: cover;
                 background-repeat: no-repeat;
                 background-position: center;
@@ -119,7 +118,7 @@
     </head>
 
     <body id = "body">
-        <div class="jumbotron" style = "background-image: linear-gradient(to bottom, rgba(0,0,0,0.6) 0%,rgba(0,0,0,0.6) 100%), url('{% static 'img/inventory-2.jpg' %}');">
+        <div class="jumbotron">
             <div class="text-white">
                 <p id = "heading">Inventario</p>
                 <hr style = "background-color: white;">

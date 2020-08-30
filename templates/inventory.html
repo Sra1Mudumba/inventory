@@ -7,7 +7,6 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-        <link rel="stylesheet" href="{% static 'css/styles.css' %}">
         <link href='https://fonts.googleapis.com/css?family=Actor' rel='stylesheet'>
         <title>Inventario Products</title>
 
@@ -102,7 +101,7 @@
     <body id = "body">
         <div class = "container">
             <div class="row">
-                <h2 class = "col-12 col-md-8" id = "heading">Inventory Details</h2>
+                <h2 class = "col-12 col-md-8 mt-3" id = "heading">Inventory Details</h2>
                 <div class="col-md-4 col-12">
                     <form method = "POST" class="form-inline my-2 my-lg-0">
                         {% csrf_token %}

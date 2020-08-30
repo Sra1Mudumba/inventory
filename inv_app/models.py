@@ -29,3 +29,6 @@ class CustomerSale(models.Model):
     delete_product = models.BooleanField()
     sale_date = models.DateTimeField(auto_now_add = True)
 
+    def __str__(self):
+        product_details = str(self.product_name) + ' (' + str(self.invoice_id.invoice_id) + ')'
+        return product_details
