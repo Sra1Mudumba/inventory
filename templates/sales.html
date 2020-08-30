@@ -51,6 +51,7 @@
                 background-color: blanchedalmond;
                 font-weight: bold;
                 margin-bottom: 30px;
+                margin-top: 30px;
                 z-index: 1;
             }
 
@@ -77,6 +78,30 @@
                 color: red;
             }
         </style>
+
+        <nav id = "navbar" class="navbar navbar-expand-lg fixed-top">
+            <a class="navbar-brand" href="{% url 'index' %}"> <span><img style = "width: 40px; height: 30px;" src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQlaXUSry23DkZATW4_cTAPEpIdADFutVMcxg&usqp=CAU"></span>Inventario</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon" style = "color:brown;">Menu</span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                    <a class="nav-link" href="{% url 'index' %}">Home</a>
+                    </li>
+                    <li class="nav-item">
+                    <a class="nav-link" href="{% url 'inventory' %}">Inventory</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'invoice' %}">Sales</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'saledetails' %}">Sales Details</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
     </head>
 
     <body>
