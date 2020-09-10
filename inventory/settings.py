@@ -26,7 +26,7 @@ SECRET_KEY = '(z=--bl%l^-(6oo_5xeucx!lrg06jd6pm$qk5!q0(qoz5uzst#'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['muinvapp.herokuapp.com', '127.0.0.1']
 
 
 # Application definition
