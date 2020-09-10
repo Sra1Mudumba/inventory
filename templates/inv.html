@@ -50,6 +50,7 @@
             <table border="1">
                 <thead>
                     <th scope = "col">Invoice Id.</th>
+                    <th scope = "col">Customer Name</th>
                     <th scope = "col">Product Sr. No</th>
                     <th scope = "col">Product Name</th>
                     <th scope = "col">Quantity Remaining</th>
@@ -60,6 +61,7 @@
                 {% for c in cust %}
                 <tbody>
                     <td>{{ c.invoice_id.invoice_id }}</td>
+                    <td>{{ c.invoice_id.cust_name }}</td>
                     <td>{{ c.product_sr_no }}</td>
                     <td>{{ c.product_name }}</td>
                     <td>{{ c.quantity }}</td>

@@ -32,3 +32,4 @@ class CustomerSale(models.Model):
     def __str__(self):
         product_details = str(self.product_name) + ' (' + str(self.invoice_id.invoice_id) + ')'
         return product_details
+

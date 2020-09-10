@@ -9,6 +9,7 @@
 
         <link rel="stylesheet" href="{% static 'css/styles.css' %}">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
         <link href='https://fonts.googleapis.com/css?family=Actor' rel='stylesheet'>
         <title>Inventario</title>
 
@@ -18,8 +19,8 @@
             }
 
             .navbar-brand, .navbar-brand:hover {
-                color: brown;
-                font-weight: bold;
+                color: brown; 
+                font-weight: bold; 
                 font-size: 1.5em;
             }
 
@@ -29,7 +30,7 @@
             }
 
             .navbar-nav > .nav-item> .nav-link {
-                color: brown;
+                color: brown; 
                 font-weight: bold;
             }
 
@@ -43,13 +44,13 @@
             }
 
             body {
-                margin-top: 60px;
-                background-color: #a0522d;
+                margin-top: 60px; 
+                background-color: #a0522d; 
                 font-family: 'Actor';
             }
 
             #form{
-                border:1px solid #cecece;
+                border:1px solid #cecece; 
                 background-color: blanchedalmond;
                 border-radius: 2%;
                 font-weight: bold;
@@ -64,52 +65,27 @@
                 background-color: brown;
                 color: white;
             }
-
-            div.jumbotron {
-                height: 40vh;
-                background-image: linear-gradient(to bottom, rgba(0,0,0,0.6) 0%,rgba(0,0,0,0.6) 100%), url('https://st.depositphotos.com/1000393/1583/i/950/depositphotos_15837823-stock-photo-warehouse-background.jpg');
-                background-size: cover;
-                background-repeat: no-repeat;
-                background-position: center;
-                z-index: 1;
-            }
-
-            div.text {
-                font-weight: bold;
-                opacity: 1;
-                z-index: 2;
-            }
-
-            #heading {
-                margin-top: 30px;
-                padding-top: 10px;
-            }
-
-            #search {
-                width: 20px;
-                height: 20px;
-            }
         </style>
 
         <nav id = "navbar" class="navbar navbar-expand-lg fixed-top">
-            <a class="navbar-brand" href="{% url 'index' %}"> <span><img style = "width: 40px; height: 30px;" src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQlaXUSry23DkZATW4_cTAPEpIdADFutVMcxg&usqp=CAU"></span>Inventario</a>
+            <a class="navbar-brand" href="{% url 'index' %}"> <span><img style = "width: 30px; height: 30px;" src="{% static 'img/inv.png' %}" alt="inventory"></span> Inventario</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
               <span class="navbar-toggler-icon mt-2 mr-1" style = "color: brown;">Menu</span>
             </button>
-
+          
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="nav navbar-nav ml-auto">
                     <li class="nav-item">
-                        <a class="nav-link active" href="{% url 'index' %}">Home</a>
+                        <a class="nav-link active" href="{% url 'index' %}"><span><i class = "fa fa-home"></i></span> Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'inventory' %}">Inventory</a>
+                        <a class="nav-link" href="{% url 'inventory' %}"><span><i class = "fa fa-shopping-cart"></i></span> Inventory</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'invoice' %}">Sales</a>
+                        <a class="nav-link" href="{% url 'invoice' %}"><span><i class = "fa fa-cart-plus"></i></span> Sales</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'saledetails' %}">Sales Details</a>
+                        <a class="nav-link" href="{% url 'saledetails' %}"><span><i class = "fa fa-sticky-note"></i></span> Sales Details</a>
                     </li>
                 </ul>
             </div>
@@ -144,7 +120,7 @@
             <div class="row mb-3">
                 <div class="col-12 col-md-6 offset-md-3">
                     <div id = "form">
-                        <h3 class = "mt-3 text-center">Product Details Form</h3>
+                        <h3 class = "mt-3 text-center">Add Product Form</h3>
                         <hr>
                         <form method = "POST" style = "padding: 20px;">
                             {% csrf_token %}
@@ -154,38 +130,38 @@
                                     <input type="text" class = "form-control" id = "product_name" name = "product_name" placeholder = "Enter Product Name" required>
                                 </div>
                             </div>
-
+    
                             <div class = "row form-group">
                                 <label for="product_sr_no" class = "mt-1 col-md-5 col-12">Product Serial No.</label>
                                 <div class="col-md-7 col-12">
-                                    <input type="text" class = "form-control" id = "product_sr_no" name = "product_sr_no" placeholder = "Enter Product Sl.No." required>
+                                    <input type="text" class = "form-control" id = "product_sr_no" name = "product_sr_no" placeholder = "Enter Product Sr.No." required>
                                 </div>
                             </div>
-
+    
                             <div class = "row form-group">
                                 <label for="quantity" class = "mt-1 col-md-5 col-12">Quantities Received</label>
                                 <div class="col-md-7 col-12">
                                     <input type="number" class = "form-control" id = "quantity" name = "quantity" placeholder = "Quantities Received" required>
                                 </div>
                             </div>
-
+    
                             <div class = "row form-group">
                                 <label for="price" class = "mt-1 col-md-5 col-12">Price Per Unit</label>
                                 <div class="col-md-7 col-12">
-                                    <input type="number" step = "any" class = "form-control" id = "price" name = "price" placeholder = "Price Per Unit" required>
+                                    <input type="number" step = "any" class = "form-control" id = "price" name = "price" placeholder = "Price (Per Unit)" required>
                                 </div>
                             </div>
-
+    
                             <div class = "row form-group">
                                 <label for="vendor_name" class = "mt-1 col-md-5 col-12">Vendor Name</label>
                                 <div class="col-md-7 col-12">
                                     <input type="text" class = "form-control" id = "vendor_name" name = "vendor_name" placeholder = "Enter Vendor Name" required>
                                 </div>
                             </div>
-
+    
                             <div class="form-group row">
                                 <div class="offset-md-5 col-md-7 col-12">
-                                    <button type="submit" class="btn">Save to Inventory</button>
+                                    <button type="submit" class="btn"><span><i class = "fa fa-plus"></i></span> Add</button>
                                 </div>
                             </div>
                         </form>
@@ -193,8 +169,8 @@
                 </div>
             </div>
         </div>
-
-
+        
+        
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>

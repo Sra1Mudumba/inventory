@@ -1,6 +1,6 @@
 from django.urls import path, include
 from . import views
-from .views import GeneratePDF
+from .views import GeneratePDF, GenerateBill
 
 urlpatterns = [
     path('', views.index, name = "index"),
@@ -9,5 +9,6 @@ urlpatterns = [
     path('sales/<invoice_id>/', views.product_sale, name = "product_sale"),
     path('sales/<invoice_id>/confirmation', views.confirm, name = "confirm"),
     path('saledetails/', views.saledetails, name = "saledetails"),
-    path('pdf/$', GeneratePDF.as_view())
+    path('sales_details/', GeneratePDF.as_view()),
+    path('bill/<invoice_id>', GenerateBill.as_view()),
 ]

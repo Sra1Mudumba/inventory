@@ -21,7 +21,7 @@ class GeneratePDF(View):
         pdf = render_to_pdf('inv.html', context)
         if pdf:
             response = HttpResponse(pdf, content_type='application/pdf')
-            filename = "Inventario_Sales_%s.pdf" %("12341231")
+            filename = "Inventario_Sales_%s.pdf" %("12345678")
             content = "inline; filename='%s'" %(filename)
             download = request.GET.get("download")
             if download:
@@ -42,7 +42,7 @@ context = {}
 # Create your views here.
 def index(request):
     if request.method == "POST":
-        product_name = request.POST['product_name']
+        product_name = request.POST['product_name'].lower()
         product_sr_no = request.POST['product_sr_no']
         quantity = request.POST['quantity']
         price = request.POST['price']
@@ -55,7 +55,7 @@ def index(request):
             product.save()
 
         else:
-            if prod.vendor_name == vendor_name:
+            if prod.price == price:
                 product = Product.objects.filter(product_name = product_name).first()
                 product.quantity = product.quantity + int(quantity)
                 product.save()
@@ -80,7 +80,7 @@ def inventory(request):
         return JsonResponse(titles, safe=False)
 
     if request.method == "POST":
-        search = request.POST["search"]
+        search = request.POST["search"].lower()
 
         prod = Product.objects.filter(product_name = search).all()
 
@@ -106,12 +106,12 @@ def invoice(request):
         invoice.save()
         return redirect('product_sale', invoice_id = invoice.invoice_id)
 
-    invoice_id = "SOO" + uuid.uuid4().hex[:6].upper()
+    invoice_id = "INV" + uuid.uuid4().hex[:6].upper()
     return render(request, 'invoice.html', {'invoice': invoice_id})
 
 def product_sale(request, invoice_id):
     invoice = Invoice.objects.filter(invoice_id = invoice_id).first()
-    CustomerSaleFormSet = modelformset_factory(CustomerSale, fields = ('product_name', 'product_sr_no', 'quantity', 'price', 'delete_product'), extra = 5)
+    CustomerSaleFormSet = modelformset_factory(CustomerSale, fields = ('product_name', 'product_sr_no', 'quantity', 'price', 'delete_product'), extra = 3)
     form = CustomerSaleFormSet(queryset = CustomerSale.objects.filter(invoice_id = invoice_id))
 
     if request.method == "POST":
@@ -120,7 +120,7 @@ def product_sale(request, invoice_id):
             instances = pro_sale.save(commit = False)
 
             for instance in instances:
-                product_name = instance.product_name
+                product_name = instance.product_name.lower()
                 product_sr_no = instance.product_sr_no
                 quantity = instance.quantity
                 price = instance.price
@@ -129,7 +129,17 @@ def product_sale(request, invoice_id):
                 total_price = quantity * price
 
                 pro = Product.objects.filter(product_sr_no = product_sr_no).first()
+
+                if pro is None:
+                    messages.info(request, 'There is no Product named {}'.format(product_name))
+                    return redirect('product_sale', invoice_id = invoice.invoice_id)
+
+                if pro.quantity == 0:
+                    messages.info(request, 'There is no stock for Product named {}'.format(product_name))
+                    return redirect('product_sale', invoice_id = invoice.invoice_id)
+
                 prod_sale = CustomerSale(product_name = product_name, product_sr_no = product_sr_no, quantity = quantity, price = price, total_price = total_price, invoice_id = invoice)
+
 
                 if not delete_pro:
                     if not pro.quantity < prod_sale.quantity:
@@ -167,3 +177,33 @@ def times():
 def saledetails(request):
     customer = CustomerSale.objects.all().order_by('-sale_date')
     return render(request, 'salesdetails.html', {'cust': customer})
+
+class GenerateBill(View):
+    def get(self, request, *args, **kwargs):
+        template = get_template('billing.html')
+        inv_id = self.kwargs['invoice_id']
+        inv = CustomerSale.objects.filter(invoice_id = inv_id)
+        invo = CustomerSale.objects.filter(invoice_id = inv_id).first()
+        total_price = 0
+
+        for i in inv:
+            total_price = total_price + i.total_price
+        
+        context = {
+            'cust': inv,
+            'invo':invo,
+            'tot': total_price,
+        }
+        
+        html = template.render(context)
+        pdf = render_to_pdf('billing.html', context)
+        if pdf:
+            response = HttpResponse(pdf, content_type='application/pdf')
+            filename = "Inventario_Sales_%s.pdf" %("12345678")
+            content = "inline; filename='%s'" %(filename)
+            download = request.GET.get("download")
+            if download:
+                content = "attachment; filename='%s'" %(filename)
+            response['Content-Disposition'] = content
+            return response
+        return HttpResponse("Not found")
