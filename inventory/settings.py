@@ -26,7 +26,7 @@ SECRET_KEY = '(z=--bl%l^-(6oo_5xeucx!lrg06jd6pm$qk5!q0(qoz5uzst#'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1','muinvapp.herokuapp.com']
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -125,7 +125,8 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-STATIC_URL = '/staticfiles/'
+STATIC_URL = '/static/'
+STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
