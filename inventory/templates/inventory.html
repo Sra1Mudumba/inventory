@@ -1,0 +1,181 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang = 'en'>
+    <head>
+        <meta charset = 'UTF-8'>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+        <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+        <link href='https://fonts.googleapis.com/css?family=Actor' rel='stylesheet'>
+        <title>Inventory Management</title>
+
+        <style>
+            #navbar {
+                background-color: blanchedalmond;
+            }
+
+            .navbar-brand, .navbar-brand:hover {
+                color: brown; 
+                font-weight: bold; 
+                font-size: 1.5em;
+            }
+
+            .navbar-nav > .nav-item> .nav-link {
+                color: brown; 
+                font-weight: bold;
+            }
+
+            .navbar-nav > .nav-item .nav-link:hover {
+                color: blanchedalmond;
+                background-color: brown;
+            }
+
+            .active {
+                background-color:peachpuff;
+            }
+
+            #body {
+                margin-top: 60px; 
+                background-color: #a0522d; 
+                font-family: 'Actor';
+            }
+
+            #heading {
+                font-weight: bold;
+                font-size: 2.5em;
+                color: blanchedalmond;
+            }
+
+            .table {
+                font-size: 1.1em;
+                border: 2px solid #000;
+                border-collapse:separate; 
+                border-spacing:0 3px;
+                border-radius: 10px;
+                padding: 5px;
+            }
+
+            .table tr th,td {
+                background-color: blanchedalmond;
+                border-radius: 5px;
+            }
+
+            .table>thead th {
+                font-weight: bold;
+                font-size: 1.4em;
+            }
+
+            #serial {
+                font-weight: bold;
+            }
+
+            .btn {
+                background-color: blanchedalmond;
+                color: brown;
+                font-weight: bold;
+                height: 40px;
+            }
+
+            .btn:hover {
+                background-color: brown;
+                color: blanchedalmond;
+            }
+
+            .btn-danger {
+                border-radius: 45%;
+                color: white;
+                background-color: red;
+            }
+
+            .btn-success {
+                background-color: green;
+                color: white;
+                border-radius: 45%;
+            }
+        </style>
+
+        <nav id = "navbar" class="navbar navbar-expand-lg fixed-top">
+            <a class="navbar-brand" href="{% url 'index' %}"> <span><img style = "width: 30px; height: 30px;" src="{% static 'img/inv.png' %}" alt="inventory"></span> Inventario</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon mt-2 mr-1" style = "padding-left: 2px; color:brown;">Menu</span>
+            </button>
+          
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                    <a class="nav-link" href="{% url 'index' %}"><span><i class = "fa fa-home"></i></span> Home</a>
+                    </li>
+                    <li class="nav-item active">
+                    <a class="nav-link active" href="{% url 'inventory' %}"><span><i class = "fa fa-shopping-cart"></i></span> Inventory</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'invoice' %}"><span><i class = "fa fa-cart-plus"></i></span> Sales</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'saledetails' %}"><span><i class = "fa fa-sticky-note"></i></span> Sales Details</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </head>
+
+    <body id = "body">
+        <div class = "container">
+            <div class="row">
+                <h2 class = "col-12 col-md-4 mt-4" id = "heading">Inventory Details</h2>
+                <a href="{% url 'index' %}" class = "mt-5 mr-5 btn btn-outline col-10 offset-1 col-md-2"><span><i class = "fa fa-plus"></i></span>&nbsp;Add More..</a>
+                <div class="col-md-4 col-12">
+                    <form method = "POST" class="form-inline my-2 my-lg-0">
+                        {% csrf_token %}
+                        <input type="search" name = "search" class = "mt-5 mr-2 col-8 form-control" placeholder="Search Your Product" aria-label = "Search">
+                        <button class="mt-5 col-2 btn mr-auto" type="submit"><span><i class = "fa fa-search"></i></span></button>
+                    </form>
+                </div>
+            </div>
+            <hr style = "background-color: blanchedalmond;">
+
+            <div class="row">
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert {{ message.tags }} alert-dismissible" style = "color: red;" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        {{ message }}
+                        </div>
+                        {% endfor %}
+                {% endif %}
+            </div>
+
+            <div class="row">
+                <div class="col-12 table-responsive">
+                    <table class="table mr-auto text-center" border="1">
+                        <thead>
+                            <th scope = "col">Serial Id</th>
+                            <th scope = "col">Name</th>
+                            <th scope = "col">Remaining</th>
+                            <th scope = "col">Price</th>
+                        </thead>
+                        {% for product in products %}
+                            <tbody style = "font-size: 1.1em;">
+                                <td id = "serial">{{ product.product_sr_no }}</td>
+                                <td>{{ product.product_name }}</td>
+                                <td>{{ product.quantity }}</td>
+                                <td>{{ product.price }}</td>
+                            </tbody>
+                        {% endfor %}
+                    </table>
+                    <hr>
+                </div>
+            </div>
+        </div>
+
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    </body>
+
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+    <head>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <title>Inventario Sales</title>
+        <style type="text/css">
+            body {
+                font-weight: 200;
+                font-size: 14px;
+            }
+            .header {
+                font-weight: 100;
+                text-align: center;
+                color: #007cae;
+            }
+            .title {
+                font-size: 30px;
+                font-weight: 200;
+                padding: 10px 20px 0px 20px;  
+            }
+            .title span {
+                color: #007cae;
+            }
+            .details {
+                padding-top: 10px;
+                padding-left: 5px;
+                text-align: left !important;
+                /*margin-left: 40%;*/
+            }
+            .hrItem {
+                border: none;
+                height: 1px;
+                /* Set the hr color */
+                color: #333; /* old IE */
+                background-color: #fff; /* Modern Browsers */
+            }
+        </style>
+    </head>
+    <body>
+        <div class='wrapper'>
+            <div class='header'>
+                <h1 class="title">Inventario</h1>
+                <address>4567 Main Street, Buffalo, NY 503516</address>
+                <h1>Bill Details</h1>
+                <hr style = "color: #333;">
+            </div>
+        <div>
+        
+        <div class='details'>
+            <h2>Invoice Id: {{ invo.invoice_id.invoice_id }}</h2>
+            <h2>Customer Name: {{ invo.invoice_id.cust_name }}</h2>
+            <h2>Customer Phone Number: {{ invo.invoice_id.cust_phone }}</h2>
+            <table border="1">
+                <thead>
+                    <th scope = "col">Invoice Id.</th>
+                    <th scope = "col">Customer Name</th>
+                    <th scope = "col">Product Sr. No</th>
+                    <th scope = "col">Product Name</th>
+                    <th scope = "col">Quantity Remaining</th>
+                    <th scope = "col">Price (per unit)</th>
+                    <th scope = "col">Total Price.</th>
+                    <th scope = "col">Sale Date</th>
+                </thead>
+                {% for c in cust %}
+                <tbody>
+                    <td>{{ c.invoice_id.invoice_id }}</td>
+                    <td>{{ c.invoice_id.cust_name }}</td>
+                    <td>{{ c.product_sr_no }}</td>
+                    <td>{{ c.product_name }}</td>
+                    <td>{{ c.quantity }}</td>
+                    <td>{{ c.price }}</td>
+                    <td>{{ c.total_price }}</td>
+                    <td id = "serial">{{ c.sale_date|date:'M d, Y H:i' }}</td>
+                </tbody>
+                {% endfor %}
+            </table>
+            <div class="container">
+                <div class="row">
+                    <h3 class = "ml-auto">Total Price: {{ tot }}</h3>
+                </div>
+            </div>
+            <hr class='hrItem' />
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    </body>
+</html>
