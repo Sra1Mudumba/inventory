@@ -43,7 +43,7 @@
                 color: blanchedalmond;
             }
 
-            .text-center {
+            #edit {
                 margin: 10px;
             }
 
@@ -63,7 +63,11 @@
         <div class="container">            
             <div class="row">
                 <div class="prod col-md-6 offset-md-3 col-12">
-                    <h1 class = "text-center">Sales</h1>
+                    <div class="row" id = "edit">
+                        <div class = "col-md-10 col-12"><h1>Sales</h1></div>
+                        <div class="col-md-2 col-12"><a href="{% url 'product_sale' invoice %}" class = "btn btn-outline"><span><i class = "fa fa-edit"></i></span> Edit</a></div>
+                    </div>
+                    
                     <hr style = "border:1px solid #333;">
 
                     <table class = "table" border = "1">
@@ -81,7 +85,7 @@
                                 <td>{{ prodo.quantity }}</td>
                                 <td>{{ prodo.price }}</td>
                                 <td>{{ prodo.total_price }}</td>
-                                <td><a href="{% url 'delete_entry' invoice prodo.product_name prodo.quantity %}" class = "btn btn-outline"><span><i class = "fa fa-trash"></i></span></a></td>
+                                <td><a href="{% url 'delete_entry' invoice prodo.product_name prodo.price %}" class = "btn btn-outline"><span><i class = "fa fa-trash"></i></span></a></td>
                             </tbody>
                         {% endfor %}
                     </table>

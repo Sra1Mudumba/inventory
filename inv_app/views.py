@@ -9,7 +9,8 @@ from django import template
 from django.http import HttpResponse
 from django.views.generic import View
 from django.template.loader import get_template
-from .utils import render_to_pdf 
+from .utils import render_to_pdf
+import ast
 
 class GeneratePDF(View):
     def get(self, request, *args, **kwargs):
@@ -127,7 +128,7 @@ def product_sale(request, invoice_id):
 
                 total_price = quantity * price
 
-                pro = Product.objects.filter(product_name = product_name).first()
+                pro = Product.objects.filter(product_name = product_name, price = price).first()
 
                 if pro is None:
                     messages.info(request, 'There is no Product named {}'.format(product_name))
@@ -159,14 +160,14 @@ def confirm(request, invoice_id):
     for prod in product_sale:
         total_price = total_price + prod.price * prod.quantity
 
-    messages.info(request, 'Thank You {}! Visit Again!'.format(invoice.cust_name))
-
     return render(request, 'confirmation.html', {'total': total_price, 'invoice': invoice.invoice_id, 'product_sale': product_sale})
 
-def delete_entry(request, invoice_id, product_name, quantity):
+def delete_entry(request, invoice_id, prodo, price):
     invoice = Invoice.objects.filter(invoice_id = invoice_id).first()
-    product = Product.objects.filter(product_name = product_name).first()
-    product_sale = Cust_Sale.objects.get(Q(invoice_id = invoice_id), Q(product_name = product_name))
+    product = Product.objects.filter(product_name = prodo, price = price).first()
+    product_sale = Cust_Sale.objects.filter(Q(invoice_id = invoice_id), Q(product_name = prodo), Q(price = price)).first()
+
+    quantity = product_sale.quantity
 
     product_sale.delete()
     product.quantity = int(quantity) + product.quantity
