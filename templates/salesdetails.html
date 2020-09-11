@@ -45,6 +45,7 @@
             }
 
             #heading {
+                margin-top: 20px;
                 font-weight: bold;
                 color: blanchedalmond;
             }
@@ -90,7 +91,7 @@
         </style>
 
         <nav id = "navbar" class="navbar navbar-expand-lg fixed-top">
-            <a class="navbar-brand" href="{% url 'index' %}"> <span><img style = "width: 30px; height: 30px;" src="{% static 'img/inv.png' %}" alt="inventory"></span> Inventario</a>
+            <a class="navbar-brand" href="{% url 'index' %}"> <span><img style = "width: 35px; height: 30px;" src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSwbn1XuFrd1xkRZZikD5BLxJBdW-gt-MhLtA&usqp=CAU"></span> Inventario</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
               <span class="navbar-toggler-icon" style = "color:brown;">Menu</span>
             </button>
@@ -141,7 +142,6 @@
                             <th>Invoice Id.</th>
                             <th>Customer Name</th>
                             <th>Customer Phone</th>
-                            <th>Product Sr. No</th>
                             <th>Product Name</th>
                             <th>Quantity Remaining</th>
                             <th>Price (per unit)</th>
@@ -153,7 +153,6 @@
                                 <td id = "serial">{{ c.invoice_id.invoice_id }}</td>
                                 <td>{{ c.invoice_id.cust_name }}</td>
                                 <td>{{ c.invoice_id.cust_phone }}</td>
-                                <td id = "serial">{{ c.product_sr_no }}</td>
                                 <td>{{ c.product_name }}</td>
                                 <td>{{ c.quantity }}</td>
                                 <td>{{ c.price }}</td>

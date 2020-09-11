@@ -9,6 +9,7 @@ urlpatterns = [
     path('sales/<invoice_id>/', views.product_sale, name = "product_sale"),
     path('sales/<invoice_id>/confirmation', views.confirm, name = "confirm"),
     path('saledetails/', views.saledetails, name = "saledetails"),
+    path('delete/<invoice_id>/<product_name>/<quantity>', views.delete_entry, name = "delete_entry"),
     path('sales_details/', GeneratePDF.as_view()),
     path('bill/<invoice_id>', GenerateBill.as_view()),
 ]

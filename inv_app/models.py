@@ -19,17 +19,14 @@ class Invoice(models.Model):
     cust_name = models.CharField(max_length = 100)
     cust_phone = PhoneNumberField()
 
-class CustomerSale(models.Model):
+class Cust_Sale(models.Model):
     product_name = models.CharField(max_length = 100)
-    product_sr_no = models.CharField(max_length = 100)
     quantity = models.IntegerField()
     price = models.FloatField(max_length = 10)
     total_price = models.FloatField(max_length = 10)
     invoice_id = models.ForeignKey(Invoice, on_delete = models.CASCADE)
-    delete_product = models.BooleanField()
     sale_date = models.DateTimeField(auto_now_add = True)
 
     def __str__(self):
-        product_details = str(self.product_name) + ' (' + str(self.invoice_id.invoice_id) + ')'
+        product_details = str(self.product_name) + ' (' + str(self.invoice_id) + ')'
         return product_details
-

@@ -23,8 +23,7 @@
             }
             .details {
                 padding-top: 10px;
-                padding-left: 5px;
-                text-align: left !important;
+                text-align: center !important;
                 /*margin-left: 40%;*/
             }
             .hrItem {
@@ -33,6 +32,10 @@
                 /* Set the hr color */
                 color: #333; /* old IE */
                 background-color: #fff; /* Modern Browsers */
+            }
+
+            .table {
+                text-align: center;
             }
         </style>
     </head>
@@ -51,9 +54,8 @@
                 <thead>
                     <th scope = "col">Invoice Id.</th>
                     <th scope = "col">Customer Name</th>
-                    <th scope = "col">Product Sr. No</th>
                     <th scope = "col">Product Name</th>
-                    <th scope = "col">Quantity Remaining</th>
+                    <th scope = "col">Quantity</th>
                     <th scope = "col">Price (per unit)</th>
                     <th scope = "col">Total Price.</th>
                     <th scope = "col">Sale Date</th>
@@ -62,7 +64,6 @@
                 <tbody>
                     <td>{{ c.invoice_id.invoice_id }}</td>
                     <td>{{ c.invoice_id.cust_name }}</td>
-                    <td>{{ c.product_sr_no }}</td>
                     <td>{{ c.product_name }}</td>
                     <td>{{ c.quantity }}</td>
                     <td>{{ c.price }}</td>

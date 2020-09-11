@@ -14,33 +14,9 @@
         <title>Payment Confirmation</title>
 
         <style>
-            #navbar {
-                background-color: blanchedalmond;
-            }
-
-            .navbar-brand, .navbar-brand:hover {
-                color: brown; 
-                font-weight: bold; 
-                font-size: 1.5em;
-            }
-
             #heading {
                 font-weight: bolder;
                 font-size: 2.3em;
-            }
-
-            .navbar-nav > .nav-item> .nav-link {
-                color: brown; 
-                font-weight: bold;
-            }
-
-            .navbar-nav > .nav-item .nav-link:hover {
-                color: blanchedalmond;
-                background-color: brown;
-            }
-
-            .active {
-                background-color:peachpuff;
             }
 
             body {
@@ -49,13 +25,13 @@
                 font-family: 'Actor';
             }
 
-            #form{
+            .prod {
                 border:1px solid #cecece; 
                 background-color: blanchedalmond;
-                border-radius: 1%;
+                border-radius: 3%;
                 font-weight: bold;
                 z-index: 1;
-                margin-top: 20vh;
+                margin-top: 1vh;
             }
 
             .btn {
@@ -66,31 +42,57 @@
             .btn:hover {
                 color: blanchedalmond;
             }
+
+            .text-center {
+                margin: 10px;
+            }
+
+            .table {
+                border: 2px solid #000;
+                border-radius: 10px; 
+            }
+
+            h5 {
+                font-weight: bold;
+            }
+
         </style>
     </head>
 
     <body>
         <div class="container">            
             <div class="row">
-                <div class="col-md-6 offset-md-3 col-12">
-                    <form id = "form" method = "POST">
-                        <p id = "heading" class = "text-center">Sales</p>
-                        <hr>
-                        <div class="form-group row ml-auto">
-                            <label for="total" class = "col-3">Total Price</label>
-                            <input class = "form-control col-7" type="text" id = "total" name = "total" value = "{{ total }}">
-                        </div>
-                       
-                        <div class="form-group row ml-auto">
-                            <label for="invoice" class = "col-3">Invoice No.</label>
-                            <input type="text" class = "form-control col-7" id = "invoice" name = "invoice" value = "{{ invoice }}">
-                        </div>
+                <div class="prod col-md-6 offset-md-3 col-12">
+                    <h1 class = "text-center">Sales</h1>
+                    <hr style = "border:1px solid #333;">
 
-                        <div class="row">
-                            <a href="{% url 'index' %}" class = "btn btn-outline offset-1 col-4 mb-3 mt-3">Continue</a>
-                            <a target = "_blank" href = "../../bill/{{ invoice }}" class="btn btn-outline offset-1 col-4 mb-3 mt-3"><span><i class = "fa fa-file-pdf"></i></span>Generate Bill</a>
-                        </div>
-                    </form>
+                    <table class = "table" border = "1">
+                        <thead>
+                            <th scope = "col">Product Name</th>
+                            <th scope = "col">Quantity</th>
+                            <th scope = "col">Price (per unit)</th>
+                            <th scope = "col">Total Price</th>
+                            <th></th>
+                        </thead>
+
+                        {% for prodo in product_sale %}
+                            <tbody>
+                                <td>{{ prodo.product_name }}</td>
+                                <td>{{ prodo.quantity }}</td>
+                                <td>{{ prodo.price }}</td>
+                                <td>{{ prodo.total_price }}</td>
+                                <td><a href="{% url 'delete_entry' invoice prodo.product_name prodo.quantity %}" class = "btn btn-outline"><span><i class = "fa fa-trash"></i></span></a></td>
+                            </tbody>
+                        {% endfor %}
+                    </table>
+
+                    <h5>Total Price: {{ total }}</h5>
+                    <h5>Invoice Id: {{ invoice }}</h5>
+
+                    <div class="row">
+                        <a href="{% url 'index' %}" class = "btn btn-outline offset-1 col-4 mb-3 mt-3">Continue</a>
+                        <a target = "_blank" href = "../../../bill/{{ invoice }}" class="btn btn-outline offset-1 col-4 mb-3 mt-3"><span><i class = "fa fa-file-pdf"></i></span>Generate Bill</a>
+                    </div>
                 </div>
             </div>
         </div>

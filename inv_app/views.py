@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
+from django.db.models import Q
 from django.contrib import messages
 from django.http import JsonResponse
-from .models import Product, Invoice, CustomerSale
+from .models import Product, Invoice, Cust_Sale
 from django.forms import modelformset_factory
 import uuid
 from django import template
@@ -13,7 +14,7 @@ from .utils import render_to_pdf
 class GeneratePDF(View):
     def get(self, request, *args, **kwargs):
         template = get_template('inv.html')
-        inv = CustomerSale.objects.all()
+        inv = Cust_Sale.objects.all()
         context = {
             'cust': inv
         }
@@ -21,7 +22,7 @@ class GeneratePDF(View):
         pdf = render_to_pdf('inv.html', context)
         if pdf:
             response = HttpResponse(pdf, content_type='application/pdf')
-            filename = "Inventario_Sales_%s.pdf" %("12345678")
+            filename = "Inventario_Cust_Sales_%s.pdf" %("12345678")
             content = "inline; filename='%s'" %(filename)
             download = request.GET.get("download")
             if download:
@@ -111,24 +112,22 @@ def invoice(request):
 
 def product_sale(request, invoice_id):
     invoice = Invoice.objects.filter(invoice_id = invoice_id).first()
-    CustomerSaleFormSet = modelformset_factory(CustomerSale, fields = ('product_name', 'product_sr_no', 'quantity', 'price', 'delete_product'), extra = 3)
-    form = CustomerSaleFormSet(queryset = CustomerSale.objects.filter(invoice_id = invoice_id))
+    CustSaleFormSet = modelformset_factory(Cust_Sale, fields = ('product_name', 'quantity', 'price'))
+    form = CustSaleFormSet(queryset = Cust_Sale.objects.filter(invoice_id = invoice_id))
 
     if request.method == "POST":
-        pro_sale = CustomerSaleFormSet(request.POST)
+        pro_sale = CustSaleFormSet(request.POST)
         if pro_sale.is_valid():
             instances = pro_sale.save(commit = False)
 
             for instance in instances:
                 product_name = instance.product_name.lower()
-                product_sr_no = instance.product_sr_no
                 quantity = instance.quantity
                 price = instance.price
-                delete_pro = instance.delete_product
 
                 total_price = quantity * price
 
-                pro = Product.objects.filter(product_sr_no = product_sr_no).first()
+                pro = Product.objects.filter(product_name = product_name).first()
 
                 if pro is None:
                     messages.info(request, 'There is no Product named {}'.format(product_name))
@@ -138,21 +137,15 @@ def product_sale(request, invoice_id):
                     messages.info(request, 'There is no stock for Product named {}'.format(product_name))
                     return redirect('product_sale', invoice_id = invoice.invoice_id)
 
-                prod_sale = CustomerSale(product_name = product_name, product_sr_no = product_sr_no, quantity = quantity, price = price, total_price = total_price, invoice_id = invoice)
+                prod_sale = Cust_Sale(product_name = product_name, quantity = quantity, price = price, total_price = total_price, invoice_id = invoice)
 
-
-                if not delete_pro:
-                    if not pro.quantity < prod_sale.quantity:
-                        pro.quantity = pro.quantity - quantity
-                        pro.save()
-                        prod_sale.save()
-
-                    else:
-                        messages.error(request, "We don't have the required quantity! We only have {} left!".format(pro.quantity))
+                if not pro.quantity < prod_sale.quantity:
+                    pro.quantity = pro.quantity - quantity
+                    pro.save()
+                    prod_sale.save()
 
                 else:
-                    prod = CustomerSale.objects.filter(product_sr_no = product_sr_no)
-                    prod.delete()
+                    messages.error(request, "We don't have the required quantity of {}! We only have {} left!".format(pro.product_name, pro.quantity))
 
         return redirect('product_sale', invoice_id = invoice.invoice_id)
 
@@ -160,7 +153,7 @@ def product_sale(request, invoice_id):
 
 def confirm(request, invoice_id):
     invoice = Invoice.objects.filter(invoice_id = invoice_id).first()
-    product_sale = CustomerSale.objects.filter(invoice_id = invoice.invoice_id).all()
+    product_sale = Cust_Sale.objects.filter(invoice_id = invoice.invoice_id).all()
 
     total_price = 0
     for prod in product_sale:
@@ -168,22 +161,35 @@ def confirm(request, invoice_id):
 
     messages.info(request, 'Thank You {}! Visit Again!'.format(invoice.cust_name))
 
-    return render(request, 'confirmation.html', {'total': total_price, 'invoice': invoice.invoice_id})
+    return render(request, 'confirmation.html', {'total': total_price, 'invoice': invoice.invoice_id, 'product_sale': product_sale})
 
-def times():
-    inv = Invoice.objects.all().count()
-    return inv
+def delete_entry(request, invoice_id, product_name, quantity):
+    invoice = Invoice.objects.filter(invoice_id = invoice_id).first()
+    product = Product.objects.filter(product_name = product_name).first()
+    product_sale = Cust_Sale.objects.get(Q(invoice_id = invoice_id), Q(product_name = product_name))
+
+    product_sale.delete()
+    product.quantity = int(quantity) + product.quantity
+    product.save()
+
+    produc_sale = Cust_Sale.objects.filter(invoice_id = invoice_id).all()
+    total_price = 0
+    for prod in produc_sale:
+        total_price = total_price + prod.price * prod.quantity
+
+    return render(request, 'confirmation.html', {'total': total_price, 'invoice': invoice.invoice_id, 'product_sale': produc_sale})
+
 
 def saledetails(request):
-    customer = CustomerSale.objects.all().order_by('-sale_date')
+    customer = Cust_Sale.objects.all().order_by('-sale_date')
     return render(request, 'salesdetails.html', {'cust': customer})
 
 class GenerateBill(View):
     def get(self, request, *args, **kwargs):
         template = get_template('billing.html')
         inv_id = self.kwargs['invoice_id']
-        inv = CustomerSale.objects.filter(invoice_id = inv_id)
-        invo = CustomerSale.objects.filter(invoice_id = inv_id).first()
+        inv = Cust_Sale.objects.filter(invoice_id = inv_id)
+        invo = Cust_Sale.objects.filter(invoice_id = inv_id).first()
         total_price = 0
 
         for i in inv:
@@ -199,7 +205,7 @@ class GenerateBill(View):
         pdf = render_to_pdf('billing.html', context)
         if pdf:
             response = HttpResponse(pdf, content_type='application/pdf')
-            filename = "Inventario_Sales_%s.pdf" %("12345678")
+            filename = "Inventario_Cust_Sales_%s.pdf" %("12345678")
             content = "inline; filename='%s'" %(filename)
             download = request.GET.get("download")
             if download:

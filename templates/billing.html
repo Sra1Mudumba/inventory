@@ -2,30 +2,38 @@
 <html>
     <head>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-        <title>Inventario Sales</title>
+        <title>Inventario Bill</title>
         <style type="text/css">
+
             body {
-                font-weight: 200;
                 font-size: 14px;
             }
+        
             .header {
                 font-weight: 100;
                 text-align: center;
                 color: #007cae;
             }
+
             .title {
                 font-size: 30px;
                 font-weight: 200;
-                padding: 10px 20px 0px 20px;  
-            }
-            .title span {
                 color: #007cae;
             }
+
             .details {
-                padding-top: 10px;
-                padding-left: 5px;
-                text-align: left !important;
+                text-align: left;
                 /*margin-left: 40%;*/
+            }
+
+            #price {
+                text-align: right;
+                margin: 30px 30px 0 0;
+            }
+
+            table {
+                padding-top: 10px;
+                text-align: center !important;
             }
             .hrItem {
                 border: none;
@@ -42,7 +50,7 @@
                 <h1 class="title">Inventario</h1>
                 <address>4567 Main Street, Buffalo, NY 503516</address>
                 <h1>Bill Details</h1>
-                <hr style = "color: #333;">
+                <hr class = "hrItem" />
             </div>
         <div>
         
@@ -52,31 +60,25 @@
             <h2>Customer Phone Number: {{ invo.invoice_id.cust_phone }}</h2>
             <table border="1">
                 <thead>
-                    <th scope = "col">Invoice Id.</th>
-                    <th scope = "col">Customer Name</th>
-                    <th scope = "col">Product Sr. No</th>
+                    <th scope = "col">Sale Date</th>
                     <th scope = "col">Product Name</th>
-                    <th scope = "col">Quantity Remaining</th>
+                    <th scope = "col">Quantity</th>
                     <th scope = "col">Price (per unit)</th>
                     <th scope = "col">Total Price.</th>
-                    <th scope = "col">Sale Date</th>
                 </thead>
                 {% for c in cust %}
                 <tbody>
-                    <td>{{ c.invoice_id.invoice_id }}</td>
-                    <td>{{ c.invoice_id.cust_name }}</td>
-                    <td>{{ c.product_sr_no }}</td>
+                    <td id = "serial">{{ c.sale_date|date:'M d, Y H:i' }}</td>
                     <td>{{ c.product_name }}</td>
                     <td>{{ c.quantity }}</td>
                     <td>{{ c.price }}</td>
                     <td>{{ c.total_price }}</td>
-                    <td id = "serial">{{ c.sale_date|date:'M d, Y H:i' }}</td>
                 </tbody>
                 {% endfor %}
             </table>
             <div class="container">
                 <div class="row">
-                    <h3 class = "ml-auto">Total Price: {{ tot }}</h3>
+                    <h3 id = "price" class = "ml-auto">Total Price: {{ tot }}</h3>
                 </div>
             </div>
             <hr class='hrItem' />
