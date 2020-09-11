@@ -47,10 +47,10 @@ def index(request):
         product_name = request.POST['product_name'].lower()
         product_sr_no = request.POST['product_sr_no']
         quantity = request.POST['quantity']
-        price = request.POST['price']
+        price = float(request.POST['price'])
         vendor_name = request.POST['vendor_name']
 
-        prod = Product.objects.filter(product_name = product_name).first()
+        prod = Product.objects.filter(product_name = product_name, price = price).first()
 
         if prod is None:
             product = Product(product_name = product_name, product_sr_no = product_sr_no, quantity = quantity, price = price, vendor_name = vendor_name)
@@ -58,7 +58,7 @@ def index(request):
 
         else:
             if prod.price == price:
-                product = Product.objects.filter(product_name = product_name).first()
+                product = Product.objects.filter(product_name = product_name, price = price).first()
                 product.quantity = product.quantity + int(quantity)
                 product.save()
 
